@@ -78,9 +78,9 @@ describe('WindowsToaster', function() {
     });
   });
 
-  it('should default to empty app name', function(done) {
+  it('should default to empty appID', function(done) {
     utils.fileCommand = function(notifier, argsList, callback) {
-      expect(testUtils.getOptionValue(argsList, '-appID')).toBe(' ');
+      expect(testUtils.getOptionValue(argsList, '-appID')).toBe(undefined);
       done();
     };
     var notifier = new Notify();
@@ -88,6 +88,20 @@ describe('WindowsToaster', function() {
     notifier.notify({
       title: 'Heya',
       message: 'foo bar'
+    });
+  });
+
+  it('should pass appID properly', function(done) {
+    utils.fileCommand = function(notifier, argsList, callback) {
+      expect(testUtils.getOptionValue(argsList, '-appID')).toBe('123');
+      done();
+    };
+    var notifier = new Notify();
+
+    notifier.notify({
+      title: 'Heya',
+      message: 'foo bar',
+      appID: '123'
     });
   });
 
